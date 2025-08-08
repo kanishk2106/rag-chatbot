@@ -36,14 +36,17 @@ This project demonstrates:
 
 **Current**
 rag-chatbot/
+```
 ├── README.md # Project documentation
 ├── ingest.py # Ingestion + chunking script
 ├── requirements.txt # Python dependencies
 ├── .gitignore # Ignored files & folders
 ├── data/ # Sample documents (empty initially)
 │ └── .gitkeep
-**Planned*
+```
+**Planned**
 rag-chatbot/
+```
 ├── tests/ # Unit tests
 │ └── test_ingest.py # Basic ingestion test
 ├── src/ # Core RAG logic
@@ -52,4 +55,5 @@ rag-chatbot/
 │ └── qa.py # Retriever + QA chain
 ├── notebooks/ # Experiments / EDA
 └── Dockerfile # Container definition
+```
 
