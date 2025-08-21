@@ -1,3 +1,24 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+venv/
+.env/
+.venv/
+
+# Ignore OS files
+.DS_Store
+
+# Ignore local data files
+data/
+notebooks/
+
+# Ignore IDE/project configs
+.vscode/
+.idea/
 
 
 
