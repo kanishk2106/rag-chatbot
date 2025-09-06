@@ -1,6 +1,22 @@
+# PDF + OCR + text splitters
 pypdf==4.2.0
 langchain-text-splitters==0.2.2
 pdf2image==1.17.0
 pytesseract==0.3.10
 pillow==10.2.0
+
+# Testing
 pytest==8.2.2
+
+# Vector database + LangChain integrations
+chromadb>=0.5.4
+langchain-chroma>=0.1.4
+langchain-huggingface>=0.0.3
+
+# HuggingFace embeddings (needs torch + transformers)
+sentence-transformers>=3.0.0
+torch>=2.2.0
+transformers>=4.40.0
+
+# Progress bar
+tqdm>=4.66.0
