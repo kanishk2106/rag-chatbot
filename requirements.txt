@@ -21,6 +21,5 @@ transformers>=4.40.0
 # Progress bar
 tqdm>=4.66.0
 
-pandas==2.3.x
-numpy==2.1.1
-
+pandas>=2.3,<2.4
+numpy>=2.0,<3.0
