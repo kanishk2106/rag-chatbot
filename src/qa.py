@@ -246,5 +246,64 @@ def main():
 
 
 if __name__ == "__main__":
-    # Always run the CLI path (good for PyCharm & terminal)
     main()
+# === Fast eval helpers (reuse retriever + LLM) ===============================
+from typing import Dict, Any
+
+def build_once(
+    persist_dir: Path = DEFAULT_PERSIST,
+    collection: str = DEFAULT_COLLECTION,
+    embed_model: str = DEFAULT_EMBED_MODEL,
+    llm_model: str = DEFAULT_LLM_MODEL,
+    k: int = 4,
+) -> Dict[str, Any]:
+
+    retriever = build_retriever(persist_dir, collection, embed_model, k=k)
+    llm, tok = load_hf_llm(llm_model)
+
+    # sanity checks (same as answer_question)
+    client = chromadb.PersistentClient(path=str(persist_dir))
+    names = [c.name for c in client.list_collections()]
+    if collection not in names:
+        raise RuntimeError(
+            f"Collection '{collection}' not found in {persist_dir}. Existing: {names}"
+        )
+    if client.get_collection(collection).count() == 0:
+        raise RuntimeError(
+            f"Collection '{collection}' exists but has 0 documents. Please ingest data first."
+        )
+
+    return {"retriever": retriever, "llm": llm, "tok": tok, "k": k}
+
+
+def generate_answer_fast(question: str, ctx: Dict[str, Any]) -> Dict[str, Any]:
+
+    # 1) retrieve
+    docs = ctx["retriever"].get_relevant_documents(question)
+    context_str, citations = build_context_and_citations(docs)
+
+    # 2) prompt
+    messages = [
+        {"role": "system", "content": SYSTEM_INSTRUCTIONS},
+        {
+            "role": "user",
+            "content": (
+                f"Question:\n{question}\n\n"
+                f"Context:\n{context_str}\n\n"
+                "Answer (use citations like [1], [2] where appropriate):"
+            ),
+        },
+    ]
+    chat_prompt = ctx["tok"].apply_chat_template(
+        messages, tokenize=False, add_generation_prompt=True
+    )
+
+    # 3) generate
+    out = ctx["llm"](chat_prompt)[0]["generated_text"]
+    if out.startswith(chat_prompt):
+        ans = out[len(chat_prompt):].strip()
+    else:
+        ans = out.replace(chat_prompt, "", 1).strip()
+
+    # Normalize key names to what eval.py expects
+    return {"answer": ans, "sources": citations}

@@ -20,3 +20,6 @@ transformers>=4.40.0
 
 # Progress bar
 tqdm>=4.66.0
+
+pandas~=2.3.2
+numpy~=2.3.2
