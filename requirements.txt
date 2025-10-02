@@ -21,5 +21,10 @@ transformers>=4.40.0
 # Progress bar
 tqdm>=4.66.0
 
-pandas>=2.3,<2.4          
-numpy==1.26.4  
+# Data analysis
+pandas>=2.3,<2.4
+numpy==1.26.4
+
+# Web API
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
