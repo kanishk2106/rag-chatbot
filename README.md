@@ -1,4 +1,16 @@
-#  rag-chatbot
+---
+title: RAG Chatbot
+emoji: 🤖
+colorFrom: blue
+colorTo: pink
+sdk: streamlit
+sdk_version: 1.31.0
+app_file: ui.py
+pinned: false
+license: mit
+---
+
+# rag-chatbot
 
 A minimal **Retrieval-Augmented Generation (RAG)** chatbot built with Python.  
 It ingests documents (PDF, Markdown, TXT), splits them into chunks, and lays the groundwork for retrieval-based question answering.
