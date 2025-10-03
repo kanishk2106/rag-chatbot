@@ -1,5 +1,21 @@
 import streamlit as st
 import requests
+import os
+import subprocess
+from pathlib import Path
+
+# Path to Chroma DB
+chroma_path = Path(".chroma")
+
+# Auto-build Chroma DB if missing
+if not chroma_path.exists():
+    st.info("⚡ Building Chroma DB for the first time...")
+    subprocess.run([
+        "python", "src/embeddings.py",
+        "--input", "data/chunks.jsonl",
+        "--persist-dir", ".chroma",
+        "--collection", "rag-chatbot"
+    ], check=True)
 
 st.set_page_config(page_title="RAG Chatbot", layout="centered")
 st.title("🤖 RAG Chatbot")

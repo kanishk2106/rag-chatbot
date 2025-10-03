@@ -13,12 +13,16 @@ venv/
 .DS_Store
 
 # Ignore local data files
-data/
+data/*
+!data/chunks.jsonl
 notebooks/
 
 # Ignore IDE/project configs
 .vscode/
 .idea/
+.chroma/
+*.sqlite3
+*.bin
 
 
 
